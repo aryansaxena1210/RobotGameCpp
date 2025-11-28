@@ -8,43 +8,21 @@ enum Color
     None
 };
 
-struct Location // note everything in a struct is public, and inheritance is also public
+struct Location // note everything in a struct is public, and inheritance is also public (by default)
 {
     int row;
     int col;
 
-    // other members
+    // other members that are needed
     Location() : row(0), col(0) {};
     Location(int r, int c) : row(r), col(c) {};
 
     Location &operator+=(const Location &other);
-    // {
-    //     row += other.row;
-    //     col += other.col;
-    //     return *this;
-    // }
     Location operator+(const Location &other) const;
-    // {
-    //     return Location(row + other.row, col + other.col);
-    // }
     Location &operator-=(const Location &other);
-    // {
-    //     row -= other.row;
-    //     col -= other.col;
-    //     return *this;
-    // }
     Location operator-(const Location &other) const;
-    // {
-    //     return Location(row - other.row, col - other.col);
-    // }
     bool operator==(const Location &other) const;
-    // {
-    //     return row == other.row && col == other.col;
-    // }
     bool operator!=(const Location &other) const;
-    // {
-    //     return !(*this == other);
-    // }
 };
 
 struct Direction
@@ -57,6 +35,8 @@ struct Direction
     static const Direction South;
     static const Direction West;
 
+    // TODO - documentation (P8) - above pt.4, it says Direction should not have a constructor?
+    // should i delete this then?
     Direction() : dRow(-1), dCol(0) {} // default North
     Direction(int dr, int dc) : dRow(dr), dCol(dc) {}
     Direction(const Direction &o) = default;
