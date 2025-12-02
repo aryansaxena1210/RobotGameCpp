@@ -1,0 +1,3 @@
+# comment
+HIT_DURATION=9
+# another comment

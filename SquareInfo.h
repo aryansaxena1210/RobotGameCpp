@@ -1,21 +1,6 @@
 #pragma once
+#include "PBEnums.h"
 #include "RobotInfo.h"
-
-enum PBSquareContent
-{
-    EMPTY,
-    ROCK,
-    FOG,
-    ROCKFOG,
-    WALL
-};
-
-enum PBColor
-{
-    RED,
-    BLUE,
-    WHITE
-};
 
 class SquareInfo
 {

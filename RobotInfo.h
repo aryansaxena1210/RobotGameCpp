@@ -1,13 +1,5 @@
 #pragma once
-#include "SquareInfo.h"
-
-enum PBDirection
-{
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST
-};
+#include "PBEnums.h"
 
 class RobotInfo
 {

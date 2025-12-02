@@ -1,4 +1,5 @@
-CXXFLAGS = -std=c++17 -Wall -WExtra -g
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -g
 
 OBJS = BoardSquare.o InternalBoardSquare.o ExternalBoardSquare.o \
        Config.o
@@ -6,19 +7,21 @@ OBJS = BoardSquare.o InternalBoardSquare.o ExternalBoardSquare.o \
 all: testconfig
 
 testconfig: ConfigTest.cpp $(OBJS)
-	g++ $(CXXFLAGS) -o testconfig ConfigTest.cpp $(OBJS)
+	$(CXX) $(CXXFLAGS) -o testconfig ConfigTest.cpp $(OBJS)
 
-BoardSquare.o: BoardSquare.cpp BoardSquare.h
-	g++ $(CXXFLAGS) -c BoardSquare.cpp
+BoardSquare.o: BoardSquare.cpp BoardSquare.h SquareInfo.h RobotInfo.h PBEnums.h
+	$(CXX) $(CXXFLAGS) -c BoardSquare.cpp
 
-InternalBoardSquare.o: InternalBoardSquare.cpp InternalBoardSquare.h BoardSquare.h
-	g++ $(CXXFLAGS) -c InternalBoardSquare.cpp
+InternalBoardSquare.o: InternalBoardSquare.cpp InternalBoardSquare.h BoardSquare.h \
+                       SquareInfo.h RobotInfo.h PBEnums.h
+	$(CXX) $(CXXFLAGS) -c InternalBoardSquare.cpp
 
-ExternalBoardSquare.o: ExternalBoardSquare.cpp ExternalBoardSquare.h BoardSquare.h
-	g++ $(CXXFLAGS) -c ExternalBoardSquare.cpp
+ExternalBoardSquare.o: ExternalBoardSquare.cpp ExternalBoardSquare.h BoardSquare.h \
+                       SquareInfo.h RobotInfo.h PBEnums.h InternalBoardSquare.h
+	$(CXX) $(CXXFLAGS) -c ExternalBoardSquare.cpp
 
 Config.o: Config.cpp Config.h
-	g++ $(CXXFLAGS) -c Config.cpp
+	$(CXX) $(CXXFLAGS) -c Config.cpp
 
 clean:
 	rm -f *.o testconfig
