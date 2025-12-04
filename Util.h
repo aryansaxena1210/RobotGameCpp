@@ -44,4 +44,5 @@ struct Direction
     Direction RotateLeft90() const;
     Direction RotateRight90() const;
     Direction Rotate180() const;
+
 };

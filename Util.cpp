@@ -36,12 +36,17 @@ const Direction Direction::West = Direction(0, -1);
 
 Direction Direction::RotateLeft90() const
 {
-    return Direction(dCol, dRow);
-}
-Direction Direction::RotateRight90() const
-{
+    // North -> West, East -> North, South -> East, West -> South
+    // North -> West -> South -> East
     return Direction(dCol, -dRow);
 }
+
+Direction Direction::RotateRight90() const
+{
+    // North -> East, East -> South, South -> West, West -> North
+    return Direction(-dCol, dRow);
+}
+
 Direction Direction::Rotate180() const
 {
     return Direction(-dRow, -dCol);

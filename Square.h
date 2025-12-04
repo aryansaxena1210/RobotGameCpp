@@ -1,22 +1,19 @@
 #pragma once
 #include "Content.h"
-#include <array>
-#include <stdexcept>
+#include "Util.h"
+
+class InternalSquare;
 
 class Square
 {
-    // convert 'every __<Rock,Fog,etc>__ IS A grid-square'   to
-    //  "every square HAS A ___"
-    //  i know, a lot more member variables but what would you rather, more (O(n)) nmemeber variables (one each) or more subclasses O(2^n - combinitorial)?
-
 public:
-    Content *Rock;
-    Content *Fog;
-    Content *SquareColor;
-    Content *Robot;
-    Content *Wall;
+    Content *Rock = &NotPresentInstance;
+    Content *Fog = &NotPresentInstance;
+    Content *SquareColor = &NotPresentInstance;
+    Content *Robot = &NotPresentInstance;
+    Content *Wall = &NotPresentInstance;
 
-    static NotPresent NotPresentInstance; // this is NOT just declaration, but rather initializartion? WRONG! static member hai, will not be initialized
+    static NotPresent NotPresentInstance;
     static RockContent RockInstance;
     static FogContent FogInstance;
     static WallContent WallInstance;
@@ -33,17 +30,39 @@ public:
 
 class AgentSquare : public Square
 {
+private:
+    SquareColorContent agentSquareColor = SquareColorContent(Color::None);
+
+    static RobotContent agentRobotRed;
+    static RobotContent agentRobotBlue;
+
 public:
-    SquareColorContent agentSquareColor;
+    AgentSquare(Color squareColor, bool rockPresent, bool fogPresent, bool robotPresent, Color robotColor);
+    AgentSquare(InternalSquare s);
     AgentSquare();
-    AgentSquare(const Square &s); // copy allowed limited info
 };
 
 class InternalSquare : public Square
 {
-public:
-    SquareColorContent internalSquareColor;
-    RobotContent internalRobotContent;
+private:
+    SquareColorContent internalSquareColor = SquareColorContent(Color::None);
+    RobotContent RobotInstance = RobotContent(Color::None, Direction{0, 1}, Color::None);
+    RobotContent internalRobotContent = RobotContent(Color::None, Direction::North, Color::None);
 
+public:
     InternalSquare();
+
+    // Additional helper methods
+    void setSquareColor(Color c);
+    Color getSquareColor() const;
+    void setRock(bool present);
+    void setFog(bool present);
+    void setWall(bool present);
+    void setRobot(Color robotColor, Direction dir, Color paintColor);
+    void removeRobot();
+    bool hasRobot() const;
+    RobotContent *getRobotContent();
+    Direction getRobotDirection() const;
+    Color getRobotPaintColor() const;
+    friend class GameBoard;
 };

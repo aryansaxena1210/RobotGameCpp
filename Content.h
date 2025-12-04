@@ -1,43 +1,35 @@
 #pragma once
 #include "Util.h"
 
-enum Color
-{
-    Red,
-    Blue,
-    White,
-    None
-};
-
-class Content // basically an interface but 'interface' keyword does not exist in cpp
+class Content
 {
 public:
     virtual bool isPresent() const = 0;
-    virtual ~Content() {}
+    virtual ~Content() = default;
 };
 
 class NotPresent : public Content
 {
 public:
-    bool isPresent() const override { return false; }
+    bool isPresent() const;
 };
 
 class RockContent : public Content
 {
 public:
-    bool isPresent() const override { return true; }
+    bool isPresent() const;
 };
 
 class FogContent : public Content
 {
 public:
-    bool isPresent() const override { return true; }
+    bool isPresent() const;
 };
 
 class WallContent : public Content
 {
 public:
-    bool isPresent() const override { return true; }
+    bool isPresent() const;
 };
 
 class SquareColorContent : public Content
@@ -46,31 +38,30 @@ private:
     Color color;
 
 public:
-    SquareColorContent(Color c = Color::None) : color(c) {}
-    bool isPresent() const override { return color != Color::None; }
-    Color getColor() const { return color; }
-    void setColor(Color c) { color = c; }
+    SquareColorContent(Color c);
+    bool isPresent() const;
+    Color getColor() const;
+    void setColor(Color c);
 };
 
 class RobotContent : public Content
 {
 private:
-    Color agentColor;
+    Color color;
     Direction direction;
     Color paintColor;
     bool present;
 
 public:
-    RobotContent(Color c = Color::None, Direction d = Direction::North, Color p = Color::None, bool prs = false)
-        : agentColor(c), direction(d), paintColor(p), present(prs) {}
+    RobotContent(Color c, Direction d, Color p);
+    bool isPresent() const;
+    Color getColor() const;
+    Direction getDirection() const;
+    Color getPaintColor() const;
+    void setDirection(Direction d);
+    void setPaintColor(Color c);
+    // void setColor(Color c);
 
-    bool isPresent() const override { return present; }
-    Color getColor() const { return agentColor; }
-    Direction getDirection() const { return direction; }
-    Color getPaintColor() const { return paintColor; }
-
-    void setPresent(bool v) { present = v; }
-    void setDirection(const Direction &d) { direction = d; }
-    void setAgentColor(Color c) { agentColor = c; }
-    void setPaintColor(Color p) { paintColor = p; }
+    void setPresent(bool p);
+    void setAgentColor(Color c);
 };

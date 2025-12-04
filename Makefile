@@ -8,6 +8,9 @@ OBJS = $(SRCS:.cpp=.o)
 
 all: testgameboard
 
+Content.o : Content.cpp Content.h
+	gcc -c Content.cpp -o Content.o
+	
 testgameboard: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o testgameboard $(OBJS)
 
@@ -16,3 +19,20 @@ testgameboard: $(OBJS)
 
 clean:
 	rm -f *.o testgameboard
+
+
+temp: temp.o Content.o Util.o Square.o
+	g++ -o temp temp.o Content.o Util.o Square.o
+	./temp
+
+temp.o : temp.cpp
+	g++ -c temp.cpp
+
+Content.o: Content.cpp Content.h Util.h
+	g++ -c Content.cpp
+
+Util.o: Util.cpp Util.h
+	g++ -c Util.cpp
+
+Square.o : Square.cpp Square.h
+	g++ -c Square.cpp
