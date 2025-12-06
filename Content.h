@@ -58,9 +58,9 @@ public:
     Color getColor() const;
     Direction getDirection() const;
     Color getPaintColor() const;
-    void setDirection(Direction d);
-    void setPaintColor(Color c);
-    // void setColor(Color c);
+    void setRobotDir(Direction d);
+    void setRobotPaintColor(Color c);
+    void setRobotColor(Color c);
 
     void setPresent(bool p);
     void setAgentColor(Color c);

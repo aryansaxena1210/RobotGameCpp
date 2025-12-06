@@ -146,7 +146,7 @@ bool InternalSquare::hasRobot() const
     return Robot->isPresent();
 }
 
-RobotContent *InternalSquare::getRobotContent()
+const RobotContent *InternalSquare::getRobotContent() const
 {
     return &RobotInstance;
 }
@@ -159,4 +159,10 @@ Direction InternalSquare::getRobotDirection() const
 Color InternalSquare::getRobotPaintColor() const
 {
     return RobotInstance.getPaintColor();
+}
+
+// const overloading?
+RobotContent *InternalSquare::getRobotContent()
+{
+    return &RobotInstance;
 }

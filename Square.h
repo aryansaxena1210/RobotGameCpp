@@ -61,6 +61,7 @@ public:
     void setRobot(Color robotColor, Direction dir, Color paintColor);
     void removeRobot();
     bool hasRobot() const;
+    const RobotContent *getRobotContent() const;
     RobotContent *getRobotContent();
     Direction getRobotDirection() const;
     Color getRobotPaintColor() const;
