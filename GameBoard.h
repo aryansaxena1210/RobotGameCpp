@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <string>
 
+static const int BOARD_SZ = 15;
+
 enum RobotMove
 {
     TurnLeft,
@@ -18,6 +20,7 @@ struct RobotMoveRequest
 {
     RobotMove move;
     bool fire;
+    bool longrangescan;
 };
 
 class GameBoard
@@ -39,14 +42,14 @@ public:
     int redScore() const;
     int turnNumber() const;
 
-    AgentSquare **getLongRangeScan(Color robotColor) const;
-    AgentSquare **getShortRangeScan(Color robotColor) const;
+    typedef AgentSquare ROW[BOARD_SZ + 2];
+    typedef AgentSquare SROW[3];
+    // todo fix method signature using typdefs above (piazza)
+    ROW *getLongRangeScan(Color robotColor) const;
+    SROW *getShortRangeScan(Color robotColor) const;
 
     void testPrintBoard() const;
     void testPrintSquare(const Location &loc) const;
-
-    // ustility
-    static const int BOARD_SZ = 15;
 
 private:
     GameBoard(); // singleton
@@ -56,7 +59,7 @@ private:
     void placeRobotsRandomly();
     bool inBounds(const Location &loc) const;
     Location robotLocation(Color robotColor) const;
-    InternalSquare board[BOARD_SZ][BOARD_SZ];
+    InternalSquare board[BOARD_SZ + 2][BOARD_SZ + 2];
 
     // robot state
     RobotContent redRobot;

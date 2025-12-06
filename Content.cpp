@@ -68,12 +68,12 @@ Color RobotContent::getPaintColor() const
     return paintColor;
 }
 
-void RobotContent::setDirection(Direction d)
+void RobotContent::setRobotDir(Direction d)
 {
     direction = d;
 }
 
-void RobotContent::setPaintColor(Color c)
+void RobotContent::setRobotPaintColor(Color c)
 {
     paintColor = c;
 }
@@ -87,7 +87,7 @@ void RobotContent::setAgentColor(Color c)
 {
     color = c;
 }
-// void RobotContent::setColor(Color c)
-// {
-//     color = c;
-// }
+void RobotContent::setRobotColor(Color c)
+{
+    color = c;
+}
