@@ -291,6 +291,46 @@ bool GameBoard::paintBlobHit(Color shooterColor) const
     return false;
 }
 
+bool GameBoard::paintBlobHit(Color robotColor, RobotMoveRequest moveRequest)
+{
+    // Only check if fire was requested
+    if (!moveRequest.fire)
+        return false;
+
+    Location shooterLoc = robotLocation(robotColor);
+    Color targetColor = (robotColor == Color::Red) ? Color::Blue : Color::Red;
+    Location targetLoc = robotLocation(targetColor);
+
+    const RobotContent &shooter = (robotColor == Color::Red) ? redRobot : blueRobot;
+    Direction shootDir = shooter.getDirection();
+
+    Location checkLoc = shooterLoc;
+
+    // Travel in the direction the robot is facing
+    while (true)
+    {
+        checkLoc.row += shootDir.dRow;
+        checkLoc.col += shootDir.dCol;
+
+        if (!inBounds(checkLoc))
+            return false;
+
+        // Paint blob stops at walls
+        if (board[checkLoc.row][checkLoc.col].Wall->isPresent())
+            return false;
+
+        // Paint blob stops at rocks
+        if (board[checkLoc.row][checkLoc.col].Rock->isPresent())
+            return false;
+
+        // Check if we hit the target robot
+        if (checkLoc == targetLoc)
+            return true;
+    }
+
+    return false;
+}
+
 // Set square color
 void GameBoard::setSquareColor(const Location &loc, Color color)
 {

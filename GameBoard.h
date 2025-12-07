@@ -35,6 +35,7 @@ public:
     Square &getSquareContent(const Location &loc);
     bool moveRobot(RobotMoveRequest moveRequest, Color robotColor);
     bool paintBlobHit(Color shooterColor) const;
+    bool paintBlobHit(Color robotColor, RobotMoveRequest moveRequest);
     void setSquareColor(const Location &loc, Color color);
     const RobotContent &getRobotContent(Color robotColor) const;
 
