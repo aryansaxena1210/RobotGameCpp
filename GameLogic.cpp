@@ -1,7 +1,9 @@
 #include "GameLogic.h"
+#include "TestAgents.h"
 #include <iostream>
 #include <cstdlib>
-#include "TestAgents.h"
+#include <vector>
+
 using namespace std;
 
 // Singleton instance
@@ -251,43 +253,32 @@ void GameLogic::applyPaintEffect(Color targetRobot, Color paintColor)
     if (targetRobot == Color::Red)
     {
         redHitTimer = config.getHitDuration();
-        // Get red robot's location and update its paint color
-        const RobotContent &redRobot = gameBoard.getRobotContent(Color::Red);
-        // Find red robot on board and update paint color
-        for (int i = 1; i <= BOARD_SZ; i++)
-        {
-            for (int j = 1; j <= BOARD_SZ; j++)
-            {
-                Square &sq = gameBoard.getSquareContent(Location(i, j));
-                if (sq.Robot->isPresent())
-                {
-                    RobotContent *robot = dynamic_cast<RobotContent *>(sq.Robot);
-                    if (robot && robot->getColor() == Color::Red)
-                    {
-                        robot->setRobotPaintColor(paintColor);
-                        return;
-                    }
-                }
-            }
-        }
     }
     else if (targetRobot == Color::Blue)
     {
         blueHitTimer = config.getHitDuration();
-        // Get blue robot's location and update its paint color
-        for (int i = 1; i <= BOARD_SZ; i++)
+    }
+
+    // Find and update the robot's paint color on the board
+    for (int i = 1; i <= BOARD_SZ; i++)
+    {
+        for (int j = 1; j <= BOARD_SZ; j++)
         {
-            for (int j = 1; j <= BOARD_SZ; j++)
+            InternalSquare &sq = dynamic_cast<InternalSquare &>(
+                gameBoard.getSquareContent(Location(i, j)));
+
+            if (sq.hasRobot())
             {
-                Square &sq = gameBoard.getSquareContent(Location(i, j));
-                if (sq.Robot->isPresent())
+                RobotContent *robot = sq.getRobotContent();
+                if (robot->getColor() == targetRobot)
                 {
-                    RobotContent *robot = dynamic_cast<RobotContent *>(sq.Robot);
-                    if (robot && robot->getColor() == Color::Blue)
-                    {
-                        robot->setRobotPaintColor(paintColor);
-                        return;
-                    }
+                    robot->setRobotPaintColor(paintColor);
+                    cout << "  Applied paint effect: "
+                         << (targetRobot == Color::Red ? "Red" : "Blue")
+                         << " robot now paints "
+                         << (paintColor == Color::Red ? "Red" : "Blue")
+                         << " for " << config.getHitDuration() << " turns" << endl;
+                    return;
                 }
             }
         }
@@ -302,18 +293,21 @@ void GameLogic::decrementHitTimers()
         redHitTimer--;
         if (redHitTimer == 0)
         {
-            // Restore red robot's paint color
+            // Restore red robot's original paint color
             for (int i = 1; i <= BOARD_SZ; i++)
             {
                 for (int j = 1; j <= BOARD_SZ; j++)
                 {
-                    Square &sq = gameBoard.getSquareContent(Location(i, j));
-                    if (sq.Robot->isPresent())
+                    InternalSquare &sq = dynamic_cast<InternalSquare &>(
+                        gameBoard.getSquareContent(Location(i, j)));
+
+                    if (sq.hasRobot())
                     {
-                        RobotContent *robot = dynamic_cast<RobotContent *>(sq.Robot);
-                        if (robot && robot->getColor() == Color::Red)
+                        RobotContent *robot = sq.getRobotContent();
+                        if (robot->getColor() == Color::Red)
                         {
                             robot->setRobotPaintColor(Color::Red);
+                            cout << "  Red robot paint effect expired, back to painting Red" << endl;
                             return;
                         }
                     }
@@ -327,18 +321,21 @@ void GameLogic::decrementHitTimers()
         blueHitTimer--;
         if (blueHitTimer == 0)
         {
-            // Restore blue robot's paint color
+            // Restore blue robot's original paint color
             for (int i = 1; i <= BOARD_SZ; i++)
             {
                 for (int j = 1; j <= BOARD_SZ; j++)
                 {
-                    Square &sq = gameBoard.getSquareContent(Location(i, j));
-                    if (sq.Robot->isPresent())
+                    InternalSquare &sq = dynamic_cast<InternalSquare &>(
+                        gameBoard.getSquareContent(Location(i, j)));
+
+                    if (sq.hasRobot())
                     {
-                        RobotContent *robot = dynamic_cast<RobotContent *>(sq.Robot);
-                        if (robot && robot->getColor() == Color::Blue)
+                        RobotContent *robot = sq.getRobotContent();
+                        if (robot->getColor() == Color::Blue)
                         {
                             robot->setRobotPaintColor(Color::Blue);
+                            cout << "  Blue robot paint effect expired, back to painting Blue" << endl;
                             return;
                         }
                     }
@@ -406,6 +403,7 @@ void GameLogic::moveFog()
 bool GameLogic::checkCollision() const
 {
     Location redLoc, blueLoc;
+    bool foundRed = false, foundBlue = false;
 
     // Find robot locations
     for (int i = 1; i <= BOARD_SZ; i++)
@@ -417,14 +415,20 @@ bool GameLogic::checkCollision() const
             {
                 const RobotContent *robot = dynamic_cast<const RobotContent *>(sq.Robot);
                 if (robot->getColor() == Color::Red)
+                {
                     redLoc = Location(i, j);
+                    foundRed = true;
+                }
                 else if (robot->getColor() == Color::Blue)
+                {
                     blueLoc = Location(i, j);
+                    foundBlue = true;
+                }
             }
         }
     }
 
-    return redLoc == blueLoc;
+    return foundRed && foundBlue && (redLoc == blueLoc);
 }
 
 // Print current game state

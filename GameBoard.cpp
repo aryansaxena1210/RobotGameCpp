@@ -192,6 +192,9 @@ bool GameBoard::moveRobot(RobotMoveRequest moveRequest, Color robotColor)
     Location newLoc = currentLoc;
     Direction newDir = currentDir;
 
+    // todo remove
+    std::cout << "\n=================== \nMOVE robot: " << robotColor << " with request: (" << moveRequest.fire << ", " << moveRequest.longrangescan << ", " << moveRequest.move << ") \n=====================\n";
+
     // Process turn/move
     switch (moveRequest.move)
     {
@@ -225,14 +228,9 @@ bool GameBoard::moveRobot(RobotMoveRequest moveRequest, Color robotColor)
             return false;
         }
         // Move is legal - paint current square and move robot
-
-        // NOTE - robot paints when leaving block
-        std::cout << "DEBUG: Painting square at (" << currentLoc.row << "," << currentLoc.col
-                  << ") with color " << (int)robot->getPaintColor() << std::endl;
-
         board[currentLoc.row][currentLoc.col].setSquareColor(robot->getPaintColor());
-        board[currentLoc.row][currentLoc.col].removeRobot();
         board[newLoc.row][newLoc.col].setRobot(robotColor, currentDir, robot->getPaintColor());
+        board[currentLoc.row][currentLoc.col].removeRobot();
 
         // Update robot location
         if (robotColor == Color::Red)

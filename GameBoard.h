@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-static const int BOARD_SZ = 15;
+static const int BOARD_SZ = 5;
 
 enum RobotMove
 {
