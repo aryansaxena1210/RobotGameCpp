@@ -167,6 +167,7 @@ void GameLogic::playGame(const string &redname, const string &bluename)
         // Check for illegal moves (hit wall or rock)
         if (!redMoveSuccess && redRequest.move == MoveForward)
         {
+            cout << "\n=== GAME OVER ===" << endl;
             cout << "Red robot hit a wall or rock! Blue wins!" << endl;
             printGameState();
             delete redAgent;
@@ -175,6 +176,7 @@ void GameLogic::playGame(const string &redname, const string &bluename)
         }
         if (!blueMoveSuccess && blueRequest.move == MoveForward)
         {
+            cout << "\n=== GAME OVER ===" << endl;
             cout << "Blue robot hit a wall or rock! Red wins!" << endl;
             printGameState();
             delete redAgent;
@@ -185,6 +187,7 @@ void GameLogic::playGame(const string &redname, const string &bluename)
         // Check for collision
         if (checkCollision())
         {
+            cout << "\n=== GAME OVER ===" << endl;
             cout << "Robots collided! " << getWinner() << " wins!" << endl;
             printGameState();
             delete redAgent;
@@ -195,20 +198,30 @@ void GameLogic::playGame(const string &redname, const string &bluename)
         // Step 3: Handle firing
         if (redRequest.fire && redPaintBlobsRemaining > 0)
         {
+            cout << "Red robot fires paint blob!" << endl;
             if (gameBoard.paintBlobHit(Color::Red, redRequest))
             {
-                cout << "Red robot hit Blue robot with paint!" << endl;
+                cout << "  -> HIT! Blue robot is now painted Red!" << endl;
                 applyPaintEffect(Color::Blue, Color::Red);
+            }
+            else
+            {
+                cout << "  -> Miss!" << endl;
             }
             redPaintBlobsRemaining--;
         }
 
         if (blueRequest.fire && bluePaintBlobsRemaining > 0)
         {
+            cout << "Blue robot fires paint blob!" << endl;
             if (gameBoard.paintBlobHit(Color::Blue, blueRequest))
             {
-                cout << "Blue robot hit Red robot with paint!" << endl;
+                cout << "  -> HIT! Red robot is now painted Blue!" << endl;
                 applyPaintEffect(Color::Red, Color::Blue);
+            }
+            else
+            {
+                cout << "  -> Miss!" << endl;
             }
             bluePaintBlobsRemaining--;
         }
@@ -221,14 +234,16 @@ void GameLogic::playGame(const string &redname, const string &bluename)
         {
             redLRS = gameBoard.getLongRangeScan(Color::Red);
             redLongRangeScansRemaining--;
-            cout << "Red robot used long range scan" << endl;
+            cout << "Red robot used long range scan (remaining: "
+                 << redLongRangeScansRemaining << ")" << endl;
         }
 
         if (blueRequest.longrangescan && blueLongRangeScansRemaining > 0)
         {
             blueLRS = gameBoard.getLongRangeScan(Color::Blue);
             blueLongRangeScansRemaining--;
-            cout << "Blue robot used long range scan" << endl;
+            cout << "Blue robot used long range scan (remaining: "
+                 << blueLongRangeScansRemaining << ")" << endl;
         }
 
         // Step 5: Move fog
@@ -239,7 +254,7 @@ void GameLogic::playGame(const string &redname, const string &bluename)
     }
 
     // Game ended after 300 turns
-    cout << "\n=== Game Over: 300 turns reached ===" << endl;
+    cout << "\n=== GAME OVER: 300 turns reached ===" << endl;
     cout << getWinner() << " wins!" << endl;
     printGameState();
 
@@ -273,7 +288,7 @@ void GameLogic::applyPaintEffect(Color targetRobot, Color paintColor)
                 if (robot->getColor() == targetRobot)
                 {
                     robot->setRobotPaintColor(paintColor);
-                    cout << "  Applied paint effect: "
+                    cout << "  Paint effect applied: "
                          << (targetRobot == Color::Red ? "Red" : "Blue")
                          << " robot now paints "
                          << (paintColor == Color::Red ? "Red" : "Blue")
@@ -307,7 +322,7 @@ void GameLogic::decrementHitTimers()
                         if (robot->getColor() == Color::Red)
                         {
                             robot->setRobotPaintColor(Color::Red);
-                            cout << "  Red robot paint effect expired, back to painting Red" << endl;
+                            cout << "  Paint effect expired: Red robot back to painting Red" << endl;
                             return;
                         }
                     }
@@ -335,7 +350,7 @@ void GameLogic::decrementHitTimers()
                         if (robot->getColor() == Color::Blue)
                         {
                             robot->setRobotPaintColor(Color::Blue);
-                            cout << "  Blue robot paint effect expired, back to painting Blue" << endl;
+                            cout << "  Paint effect expired: Blue robot back to painting Blue" << endl;
                             return;
                         }
                     }
@@ -414,12 +429,12 @@ bool GameLogic::checkCollision() const
             if (sq.Robot->isPresent())
             {
                 const RobotContent *robot = dynamic_cast<const RobotContent *>(sq.Robot);
-                if (robot->getColor() == Color::Red)
+                if (robot && robot->getColor() == Color::Red)
                 {
                     redLoc = Location(i, j);
                     foundRed = true;
                 }
-                else if (robot->getColor() == Color::Blue)
+                else if (robot && robot->getColor() == Color::Blue)
                 {
                     blueLoc = Location(i, j);
                     foundBlue = true;
@@ -440,6 +455,16 @@ void GameLogic::printGameState() const
     cout << "Blue Score: " << gameBoard.blueScore() << endl;
     cout << "Red Paint Blobs: " << redPaintBlobsRemaining << " | ";
     cout << "Blue Paint Blobs: " << bluePaintBlobsRemaining << endl;
+
+    // Show hit timers if active
+    if (redHitTimer > 0)
+    {
+        cout << "Red robot is painting Blue color for " << redHitTimer << " more turns" << endl;
+    }
+    if (blueHitTimer > 0)
+    {
+        cout << "Blue robot is painting Red color for " << blueHitTimer << " more turns" << endl;
+    }
 }
 
 // Get winner based on scores
