@@ -77,6 +77,20 @@ int main(int argc, char *argv[])
 
         std::cout << "=====================================================================" << std::endl;
 
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
         std::cout << "\n=== Testing Robot Movements ===" << std::endl;
 
         // Test 1: Turn Red Robot Right
@@ -90,6 +104,22 @@ int main(int argc, char *argv[])
         std::cout << "New direction: (" << gameBoard.getRobotContent(Color::Red).getDirection().dRow
                   << ", " << gameBoard.getRobotContent(Color::Red).getDirection().dCol << ")" << std::endl;
 
+                if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
+        gameBoard.testPrintBoard();
+
         // Test 2: Move Blue Robot Forward
         std::cout << "\nTest 2: Blue Robot moves forward" << std::endl;
         RobotMoveRequest blueMove1;
@@ -100,6 +130,20 @@ int main(int argc, char *argv[])
         std::cout << "Move successful: " << (success ? "YES" : "NO") << std::endl;
         std::cout << "Turn: " << gameBoard.turnNumber() << std::endl;
         std::cout << "Blue Score: " << gameBoard.blueScore() << " (should be 1 if moved)" << std::endl;
+
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
 
         gameBoard.testPrintBoard();
 
@@ -113,6 +157,99 @@ int main(int argc, char *argv[])
         std::cout << "Move successful: " << (success ? "YES" : "NO") << std::endl;
         std::cout << "Turn: " << gameBoard.turnNumber() << std::endl;
         std::cout << "Red Score: " << gameBoard.redScore() << " (should be 1 if moved)" << std::endl;
+
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
+        gameBoard.testPrintBoard();
+
+        std::cout << "\n move Red forward AGAIN(1)" << std::endl;
+        RobotMoveRequest redMove3;
+        redMove3.move = MoveForward;
+        redMove3.fire = false;
+
+        success = gameBoard.moveRobot(redMove3, Color::Red);
+        std::cout << "Move successful: " << (success ? "YES" : "NO") << std::endl;
+        std::cout << "Turn: " << gameBoard.turnNumber() << std::endl;
+        std::cout << "Red Score: " << gameBoard.redScore() << " (should be 1 if moved)" << std::endl;
+
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
+        gameBoard.testPrintBoard();
+
+        std::cout << "\n move Red forward AGAIN(2)" << std::endl;
+        RobotMoveRequest redMove4;
+        redMove4.move = MoveForward;
+        redMove4.fire = false;
+
+        success = gameBoard.moveRobot(redMove4, Color::Red);
+        std::cout << "Move successful: " << (success ? "YES" : "NO") << std::endl;
+        std::cout << "Turn: " << gameBoard.turnNumber() << std::endl;
+        std::cout << "Red Score: " << gameBoard.redScore() << " (should be 1 if moved)" << std::endl;
+
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
+        gameBoard.testPrintBoard();
+
+        std::cout << "\n move Red forward AGAIN(3)" << std::endl;
+        RobotMoveRequest redMove5;
+        redMove5.move = MoveForward;
+        redMove5.fire = false;
+
+        success = gameBoard.moveRobot(redMove5, Color::Red);
+        std::cout << "Move successful: " << (success ? "YES" : "NO") << std::endl;
+        std::cout << "Turn: " << gameBoard.turnNumber() << std::endl;
+        std::cout << "Red Score: " << gameBoard.redScore() << " (should be 1 if moved)" << std::endl;
+
+        if (redRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Red \n===========";
+        else if (redRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n RED'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n RED'S PAINT COLOR: None \n===========";
+
+        if (blueRobot.getPaintColor() == Color::Red)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Red \n===========";
+        else if (blueRobot.getPaintColor() == Color::Blue)
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: Blue \n===========";
+        else
+            std::cout << " \n ============ \n BLUE'S PAINT COLOR: None \n===========";
+
         gameBoard.testPrintBoard();
 
         // TODO - test can hits more

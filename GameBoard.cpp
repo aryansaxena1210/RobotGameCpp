@@ -228,8 +228,8 @@ bool GameBoard::moveRobot(RobotMoveRequest moveRequest, Color robotColor)
 
         // NOTE - robot paints when leaving block
         board[currentLoc.row][currentLoc.col].setSquareColor(robot->getPaintColor());
-        board[currentLoc.row][currentLoc.col].removeRobot();
         board[newLoc.row][newLoc.col].setRobot(robotColor, currentDir, robot->getPaintColor());
+        board[currentLoc.row][currentLoc.col].removeRobot();
 
         // Update robot location
         if (robotColor == Color::Red)
