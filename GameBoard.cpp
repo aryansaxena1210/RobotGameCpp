@@ -14,7 +14,7 @@ GameBoard::GameBoard()
       password("xyzzy")
 {
     // todo - uncomment this out
-    //  std::srand(std::time(nullptr)); // Seed random number generator
+    std::srand(std::time(nullptr)); // Seed random number generator
     resetBoard();
 }
 

@@ -1,20 +1,20 @@
 # Compiler
 CXX = g++
-CXXFLAGS = -Wall -std=c++11 -g
+CXXFLAGS = -Wall -std=c++11
 
 # Object files
 OBJS = Config.o Util.o Content.o Square.o GameBoard.o RobotAgentRoster.o TestAgents.o GameLogic.o
 
-# Default target - does NOT include temp
-all: testgameboard
+# Default target - builds paintbots
+all: paintbots
 
-# TestGameBoard executable
+# Main paintbots executable
+paintbots: PaintBot.cpp $(OBJS)
+	$(CXX) $(CXXFLAGS) -o paintbots PaintBot.cpp $(OBJS)
+
+# TestGameBoard executable (for Part B testing)
 testgameboard: TestGameBoard.cpp $(OBJS)
 	$(CXX) $(CXXFLAGS) -o testgameboard TestGameBoard.cpp $(OBJS)
-
-# Temp testing executable (separate target)
-temp: temp.cpp $(OBJS)
-	$(CXX) $(CXXFLAGS) -o temp temp.cpp $(OBJS)
 
 # Object file rules
 Config.o: Config.cpp Config.h
@@ -43,6 +43,6 @@ GameLogic.o: GameLogic.cpp GameLogic.h GameBoard.h RobotAgent.h RobotAgentRoster
 
 # Clean
 clean:
-	rm -f *.o testgameboard temp
+	rm -f *.o testgameboard temp paintbots
 
-.PHONY: all clean temp
+.PHONY: all clean temp testgameboard

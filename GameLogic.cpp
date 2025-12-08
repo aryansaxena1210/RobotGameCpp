@@ -105,6 +105,8 @@ void GameLogic::playGame(const string &redname, const string &bluename)
     RobotAgentRoster roster;
     roster.add(new LazyAgent());
     roster.add(new RandomAgent());
+    roster.add(new AntiRandom());
+    roster.add(new TrackerAgent());
     // TODO: Add AntiRandom and Tracker when implemented
 
     RobotAgent *redAgentTemplate = roster[redname];
