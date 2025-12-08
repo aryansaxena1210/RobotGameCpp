@@ -44,6 +44,15 @@ void SquareColorContent::setColor(Color c)
     color = c;
 }
 
+const SquareColorContent &SquareColorContent::operator=(const SquareColorContent &rhs)
+{
+    if (this != &rhs)
+    {
+        color = rhs.color;
+    }
+    return *this;
+}
+
 // RobotContent implementation
 RobotContent::RobotContent(Color c, Direction d, Color p)
     : color(c), direction(d), paintColor(p), present(c != Color::None) {}

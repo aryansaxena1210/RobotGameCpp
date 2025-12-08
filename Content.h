@@ -42,6 +42,7 @@ public:
     bool isPresent() const;
     Color getColor() const;
     void setColor(Color c);
+    const SquareColorContent &operator=(const SquareColorContent &rhs);
 };
 
 class RobotContent : public Content

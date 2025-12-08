@@ -227,6 +227,9 @@ bool GameBoard::moveRobot(RobotMoveRequest moveRequest, Color robotColor)
         // Move is legal - paint current square and move robot
 
         // NOTE - robot paints when leaving block
+        std::cout << "DEBUG: Painting square at (" << currentLoc.row << "," << currentLoc.col
+                  << ") with color " << (int)robot->getPaintColor() << std::endl;
+
         board[currentLoc.row][currentLoc.col].setSquareColor(robot->getPaintColor());
         board[currentLoc.row][currentLoc.col].removeRobot();
         board[newLoc.row][newLoc.col].setRobot(robotColor, currentDir, robot->getPaintColor());
@@ -506,14 +509,14 @@ void GameBoard::testPrintBoard() const
     }
 }
 
-// Print single square (3-character format)
+// Print single square (4-character format)
 void GameBoard::testPrintSquare(const Location &loc) const
 {
     // Check if within full array bounds
     if (loc.row < 0 || loc.row >= BOARD_SZ + 2 ||
         loc.col < 0 || loc.col >= BOARD_SZ + 2)
     {
-        std::cout << "???";
+        std::cout << "????";
         return;
     }
 
@@ -551,5 +554,20 @@ void GameBoard::testPrintSquare(const Location &loc) const
             robotChar = 'B';
     }
 
-    std::cout << colorChar << obstChar << robotChar;
+    // Character 4: Robot Direction
+    char dirChar = '-';
+    if (board[loc.row][loc.col].hasRobot())
+    {
+        Direction robotDir = board[loc.row][loc.col].getRobotContent()->getDirection();
+        if (robotDir.dRow == -1 && robotDir.dCol == 0)
+            dirChar = 'n'; // North
+        else if (robotDir.dRow == 0 && robotDir.dCol == 1)
+            dirChar = 'e'; // East
+        else if (robotDir.dRow == 1 && robotDir.dCol == 0)
+            dirChar = 's'; // South
+        else if (robotDir.dRow == 0 && robotDir.dCol == -1)
+            dirChar = 'w'; // West
+    }
+
+    std::cout << colorChar << obstChar << robotChar << dirChar;
 }

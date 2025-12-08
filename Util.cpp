@@ -28,7 +28,10 @@ bool Location::operator!=(const Location &other) const
 {
     return !(*this == other);
 }
-
+Location operator+(const Location& lhs, const Direction& rhs)
+{
+    return Location(lhs.row + rhs.dRow, lhs.col + rhs.dCol);
+}
 const Direction Direction::North = Direction(-1, 0);
 const Direction Direction::East = Direction(0, 1);
 const Direction Direction::South = Direction(1, 0);

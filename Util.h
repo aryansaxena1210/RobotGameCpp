@@ -45,3 +45,5 @@ struct Direction
     Direction RotateRight90() const;
     Direction Rotate180() const;
 };
+
+Location operator+(const Location &lhs, const Direction &rhs);
