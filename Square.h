@@ -65,5 +65,5 @@ public:
     RobotContent *getRobotContent();
     Direction getRobotDirection() const;
     Color getRobotPaintColor() const;
-    friend class GameBoard;
+    // friend class GameBoard;
 };
